@@ -2,10 +2,12 @@
    <html>
      <head>
        <title>Movie Classification</title>
-     <link rel="stylesheet" href="{{ url_for('static',
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       <link rel="stylesheet" href="{{ url_for('static',
        filename='style.css') }}">
      </head>
      <body>
+       <div class="container text-center">
    <h3>Your movie review:</h3>
    <div>{{ content }}</div>
    <h3>Prediction:</h3>
@@ -13,16 +15,18 @@
      (probability: {{ probability }}%).</div>
    <div class='button'>
      <form action="/thanks" method="post">
-       <input type=submit value='Correct' name='feedback_button'>
-       <input type=submit value='Incorrect' name='feedback_button'>
+       <input class="btn btn-default" type=submit value='Correct' name='feedback_button'>
+       <input class="btn btn-default" type=submit value='Incorrect' name='feedback_button'>
        <input type=hidden value='{{ prediction }}' name='prediction'>
        <input type=hidden value='{{ content }}' name='review'>
      </form>
    </div>
-   <div class='button'>
+   <br>
+   <div>
      <form action="/">
-       <input type=submit value='Submit another review'>
+       <input class='btn btn-default' type=submit value='Submit another review'>
      </form>
  </div>
+  </div>
   </body>
 </html>

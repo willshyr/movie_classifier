@@ -37,7 +37,7 @@ def sqlite_entry(path, document, y):
 	conn.commit()
 	conn.close()
 
-app = Flask(__name__)
+# app = Flask(__name__)
 class ReviewForm(Form):
 	moviereview = TextAreaField('',
                                [validators.DataRequired(),
