@@ -17,6 +17,7 @@ cur_dir = os.path.dirname(__file__)
 clf = pickle.load(open(os.path.join(cur_dir, 'pkl_objects/classifier.pkl'), 'rb'))
 db = os.path.join(cur_dir, 'reviews.sqlite')
 
+# Return predicted class label and corresponding probability prediction of a given text document
 def classify(document):
 	label = {0: 'negative', 1: 'positive'}
 	X = vect.transform([document])
@@ -24,10 +25,12 @@ def classify(document):
 	proba = clf.predict_proba(X).max()
 	return label[y], proba
 
+# Update classifier given that a document and a class label are provided
 def train(document, y):
 	X = vect.transform([document])
 	clf.partial_fit(X, [y])
 
+#  Store a submitted movie review in SQLite database along with its class label and timestamp
 def sqlite_entry(path, document, y):
 	conn = sqlite3.connect(path)
 	c = conn.cursor()
@@ -42,10 +45,14 @@ class ReviewForm(Form):
 	moviereview = TextAreaField('',
                                [validators.DataRequired(),
                                validators.length(min=15)])
+
+# index route renders reviewform.html
 @app.route('/')
 def index():
 	form = ReviewForm(request.form)
 	return render_template('reviewform.html', form=form)
+
+
 @app.route('/results', methods=['POST'])
 def results():
 	form = ReviewForm(request.form)
@@ -57,6 +64,8 @@ def results():
                                prediction=y,
                                probability=round(proba*100, 2))
 	return render_template('reviewform.html', form=form)
+
+
 @app.route('/thanks', methods=['POST'])
 def feedback():
 	feedback = request.form['feedback_button']
